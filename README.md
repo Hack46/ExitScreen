@@ -6,7 +6,7 @@ The project consits of a Server and a Client. The goal of the project is to fit 
 Ther server gathers weather, daylaight, and public transit realtime information.
 
 The server require a lon and lat for the place to have the wather from, and the stops to get the departures from.
-/?lon=<WGS84lon>&lnat<WGS84lat>&sites=<A comma separated list with site ids to get realtime information from>
+`server.domain.se:9165/?lon=<WGS84lon>&lnat<WGS84lat>&sites=<A comma separated list with site ids to get realtime information from>`
 
 ## Client
 The client presents the data from the server according to the config. The client will only show busses departing from the stoppoint you decide. The topology is used to set the number of minutes needed to reach the stop. The walk is the total amount of time to show in the screen, in minutes.
