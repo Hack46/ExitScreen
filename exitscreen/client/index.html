@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        *{box-sizing: border-box; font-family: sans-serif; margin: 0px; padding: 0px; overflow: hidden}
+        #weather text{text-anchor: middle}
+        
+        div{position: absolute;}
+        svg{height: 100%; width: 100%;}
+        body, head{height: 100%; width: 100%;}
+        #container{height: 100%; width: 100%; margin: 0px}
+        #title{width: 100%; top: 60%; text-align: center}
+        #departures{height: 55%; width: 100%; top: 0%}
+        #weather{height: 45%; width: 100%; top: 55%}
+        
+        #title{font-size: 24px; line-height: 100%; text-transform: uppercase; color: #a3a3a3}
+        
+        .stay{fill:#ffccb6;}
+        .run{fill:#fceda3;}
+        .walk{fill:#c8f8d1;}
+                
+        .sun{fill:#ffcf64; opacity: 0.8;}
+        .sun.moon{fill:#bec9d1; opacity: 0.8;}
+        .rain{fill:#0027a8; opacity: 0.8;}
+        .wind{fill:#bee9ff; opacity: 0.8;}
+        .temp{fill:#5a4f35; opacity: 0.8;}
+        
+        text.sun{visibility: hidden};
+       
+        line.grid{stroke-width: 1; stroke: #dbdbdb;}
+        text.grid{ fill: #dbdbdb;}
+        
+        .invisible{opacity: 0;}
+        .bus{
+          transition: opacity .25s ease-in-out;
+          -moz-transition: opacity .25s ease-in-out;
+          -webkit-transition: opacity .25s ease-in-out;
+        }
+        
+        
+        .axis path, .axis line{
+            fill: none;
+            stroke: grey;
+            shape-rendering: crispEdges;
+        }
+    </style>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="init.js" charset="utf-8"></script>
+    <script src="caller.js" charset="utf-8"></script>
+    <script src="resize.js" charset="utf-8"></script>
+    <script src="update.js" charset="utf-8"></script>
+    <script src="lib/d3.axisWithLabelPicker.js" charset="utf-8"></script>
+    <script src="lib/d3.genericLogScale.js" charset="utf-8"></script>
+</head>
+<body>
+<div id="container">
+    <div id="title">Exit screen</div>
+    <div id="departures"></div>
+    <div id="weather"></div>
+</div>
+<script>
+    var data = null;
+    
+
+
+      
+      
+    var config = {
+        "departures":[
+            {"stoppoint":"13174", "id":"134"},
+            {"stoppoint":"13174", "id":"168"},
+            {"stoppoint":"13446", "id":"144"},
+            {"stoppoint":"13445", "id":"144"},
+            {"stoppoint":"13446", "id":"165"},
+            {"stoppoint":"13445", "id":"165"}
+            
+        ],
+        "topology":{
+            "13174": {"walk":120, "run":3, "stay":1, "unit":"second" },
+            "13446": {"walk":120, "run":5, "stay":3, "unit":"second" },
+            "13445": {"walk":120, "run":5.2, "stay":4, "unit":"second" }
+        },
+        "weather":{
+            "steps":"12",
+            "unit":"hour",
+            "unitShort":"h"
+        }
+    }
+    
+
+    
+    var DEPARTURES_WIDTH_GRAPH = null;
+    var WIDTH = null;
+    var WEATHER_HEIGHT =null;
+    var DEPARTURES_ROW_HEIGHT = null;
+    var DURATION_LAGOM = 1000;
+    var WEATHER_WIDTH_ONE = null;
+    var DEPARTURES_SCALE_HEIGHT = null;
+    
+    var TEXTHEIGHT_LAGOM = null;
+    var TEXTHEIGHT_SMALL = null;
+    var TEXTHEIGHT_LARGE = null;
+
+    var tScale = d3.scale.genericLog()
+        .eps(1)
+        .delta(50)
+        .domain([0, d3.max(config.departures.map(function(d){return config.topology[d.stoppoint].walk }))]);
+    
+    var sunScale = d3.scale.sqrt()
+        .domain([0, 1]);
+    var windScale = d3.scale.linear()
+        .domain([0, 25]);
+    var rainScale = d3.scale.linear()
+        .domain([0, 40]);
+    var tempScale = d3.scale.linear()
+        .domain([-10, 10]);
+    
+    var tAxis = d3.svg.axisSmart()
+        .scale(tScale)
+        .orient("top")
+        .tickSize(6, 0)
+        .tickSizeMinor(3, 0)
+        .labelerOptions({
+            showOuter: true,
+            scaleType: "genericLog",
+            toolMargin: {left:0, right:0, top:1000, bottom:1000},
+            formatter: function(d){
+                var result = null;
+                var suffix = null
+                var prefix = null
+                
+                if(d<1){result = d3.format(".1f")(d*60);  prefix ="0:" ; suffix = ""}
+                if(d<60){result = d3.format(".0f")(d); prefix ="" ;  suffix = ""}
+                if(d>=60){result = d3.format(".0f")(Math.floor(d/60)) + ":" + d3.format("02.0f")((d%60)); prefix ="" ; suffix = ""}
+                
+                if(prefix + result + suffix == "1") suffix="min"
+                return prefix + result + suffix;
+                
+            }
+        });
+    
+
+        
+        
+        
+    window.onresize = resize;
+
+    
+    setInterval(function(){
+        if(data==null)return;
+        update(data);
+    }, DURATION_LAGOM)  
+    
+    
+        
+    init();
+    resize();
+    caller();
+    setInterval(caller, 120000);
+    
+        
+</script>
+</body>
+</html>
