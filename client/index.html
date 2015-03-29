@@ -1,49 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        *{box-sizing: border-box; font-family: sans-serif; margin: 0px; padding: 0px; overflow: hidden}
-        #weather text{text-anchor: middle}
-        
-        div{position: absolute;}
-        svg{height: 100%; width: 100%;}
-        body, head{height: 100%; width: 100%;}
-        #container{height: 100%; width: 100%; margin: 0px}
-        #title{width: 100%; top: 60%; text-align: center}
-        #departures{height: 55%; width: 100%; top: 0%}
-        #weather{height: 45%; width: 100%; top: 55%}
-        
-        #title{font-size: 24px; line-height: 100%; text-transform: uppercase; color: #a3a3a3}
-        
-        .stay{fill:#ffccb6;}
-        .run{fill:#fceda3;}
-        .walk{fill:#c8f8d1;}
-                
-        .sun{fill:#ffcf64; opacity: 0.8;}
-        .sun.moon{fill:#bec9d1; opacity: 0.8;}
-        .rain{fill:#0027a8; opacity: 0.8;}
-        .wind{fill:#bee9ff; opacity: 0.8;}
-        .temp{fill:#5a4f35; opacity: 0.8;}
-        
-        text.sun{visibility: hidden};
-       
-        line.grid{stroke-width: 1; stroke: #dbdbdb;}
-        text.grid{ fill: #dbdbdb;}
-        
-        .invisible{opacity: 0;}
-        .bus{
-          transition: opacity .25s ease-in-out;
-          -moz-transition: opacity .25s ease-in-out;
-          -webkit-transition: opacity .25s ease-in-out;
-        }
-        
-        
-        .axis path, .axis line{
-            fill: none;
-            stroke: grey;
-            shape-rendering: crispEdges;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="init.js" charset="utf-8"></script>
     <script src="caller.js" charset="utf-8"></script>
@@ -60,12 +18,10 @@
 </div>
 <script>
     var data = null;
-    
 
-
-      
-      
+    //define config
     var config = {
+        "serverUrl": "http://pi.thure.org:9165/?lon=18.03&lat=59.29&sites=1707,1534",
         "departures":[
             {"stoppoint":"13174", "id":"134"},
             {"stoppoint":"13174", "id":"168"},
@@ -88,19 +44,21 @@
     }
     
 
-    
+    // define constants (they update on resize)
     var DEPARTURES_WIDTH_GRAPH = null;
     var WIDTH = null;
     var WEATHER_HEIGHT =null;
     var DEPARTURES_ROW_HEIGHT = null;
     var DURATION_LAGOM = 1000;
     var WEATHER_WIDTH_ONE = null;
-    var DEPARTURES_SCALE_HEIGHT = null;
+    var DEPARTURES_AXIS_HEIGHT = null;
     
     var TEXTHEIGHT_LAGOM = null;
     var TEXTHEIGHT_SMALL = null;
     var TEXTHEIGHT_LARGE = null;
 
+    
+    // definie scales
     var tScale = d3.scale.genericLog()
         .eps(1)
         .delta(50)
@@ -110,10 +68,19 @@
         .domain([0, 1]);
     var windScale = d3.scale.linear()
         .domain([0, 25]);
+    
+//Lätt regn ger högst 0,5 mm på en timme.
+//Måttligt regn ger 0,5-4 mm på en timme.
+//Starkt regn ger mer än 4 mm på en timme.
+//Lätta regnskurar ger högst 2 mm på en timme.
+//Måttliga regnskurar ger 2-10 mm på en timme.
+//Starka regnskurar ger 10-50 mm på en timme.
+//Mycket starka regnskurar ger minst 50 mm på en timme (skyfall).
     var rainScale = d3.scale.linear()
-        .domain([0, 40]);
+        .domain([0, 20]);
     var tempScale = d3.scale.linear()
         .domain([-10, 10]);
+    
     
     var tAxis = d3.svg.axisSmart()
         .scale(tScale)
@@ -140,17 +107,6 @@
         });
     
 
-        
-        
-        
-    window.onresize = resize;
-
-    
-    setInterval(function(){
-        if(data==null)return;
-        update(data);
-    }, DURATION_LAGOM)  
-    
     
         
     init();
@@ -158,6 +114,12 @@
     caller();
     setInterval(caller, 120000);
     
+    setInterval(function(){
+        if(data==null)return;
+        update(data);
+    }, DURATION_LAGOM)  
+    
+    window.onresize = resize;
         
 </script>
 </body>

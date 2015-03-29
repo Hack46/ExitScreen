@@ -1,6 +1,6 @@
     function caller() {
-                var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://pi.thure.org:9165/?lon=18.03&lat=59.29&sites=1707,1534", true);
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", config.serverUrl, true);
         
         xhr.onload = function (e) {
           if (xhr.readyState === 4) {

@@ -80,7 +80,7 @@
                 weatherOne.select("text.rain")
                     .transition().duration(DURATION_LAGOM).ease("linear")
                     .attr("y", rainScale(dataWeather.rain) + 20 )
-                    .text(dataWeather.rain + (index==0?"mm/h":""))
+                    .text((dataWeather.rain==0?"":dataWeather.rain) + (index==0?"mm/h":""))
                 weatherOne.select("text.wind")
                     .transition().duration(DURATION_LAGOM).ease("linear")
                     .attr("y", WEATHER_HEIGHT - windScale(dataWeather.windspeed))

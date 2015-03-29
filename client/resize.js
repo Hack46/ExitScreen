@@ -2,12 +2,12 @@
     
     
     function resize(){
-        DEPARTURES_SCALE_HEIGHT = 20;//px
-        WEATHER_SCALE_HEIGHT = 20;//px
+        DEPARTURES_AXIS_HEIGHT = window.innerHeight*0.05;//px
+        WEATHER_AXIS_HEIGHT = 20;//px
         DEPARTURES_WIDTH_GRAPH = 1; //fraction
-        WIDTH = parseInt(d3.select("#container").style("width"));
-        WEATHER_HEIGHT = parseInt(d3.select("#weather").style("height")) - WEATHER_SCALE_HEIGHT;
-        DEPARTURES_ROW_HEIGHT = (parseInt(d3.select("#departures").style("height")) - DEPARTURES_SCALE_HEIGHT) / config.departures.length;
+        WIDTH = window.innerWidth;
+        WEATHER_HEIGHT = parseInt(d3.select("#weather").style("height")) - WEATHER_AXIS_HEIGHT;
+        DEPARTURES_ROW_HEIGHT = (parseInt(d3.select("#departures").style("height")) - DEPARTURES_AXIS_HEIGHT) / config.departures.length;
         WEATHER_WIDTH_ONE = WIDTH/config.weather.steps;
         
         TEXTHEIGHT_LAGOM = Math.min(24, Math.max(6, DEPARTURES_ROW_HEIGHT - 8));
@@ -22,18 +22,18 @@
         
         d3.select("#departures").select("svg").select(".axis")
             .call(tAxis)
-            .attr("transform","translate(0,"+DEPARTURES_SCALE_HEIGHT+")")
+            .attr("transform","translate(0,"+DEPARTURES_AXIS_HEIGHT+")")
             .selectAll("text")
-            .attr("y",(-1*DEPARTURES_SCALE_HEIGHT) + "px")
+            .attr("y",(-1*DEPARTURES_AXIS_HEIGHT) + "px")
             .attr("dy","0.94em")
         
-        d3.selectAll("#departures text").style("font-size", TEXTHEIGHT_LAGOM);
+        d3.selectAll("#departures").selectAll(".row").selectAll("text").style("font-size", TEXTHEIGHT_LAGOM);
         d3.selectAll("#weather text").style("font-size", TEXTHEIGHT_LAGOM);
-        d3.select(".axis").selectAll(".tick").style("font-size", TEXTHEIGHT_SMALL);
+        //d3.select(".axis").selectAll(".tick").style("font-size", TEXTHEIGHT_SMALL);
         //d3.select("#weather").selectAll(".grid").style("font-size", TEXTHEIGHT_SMALL);
         
         d3.select("#departures").select("svg").selectAll(".row")
-            .attr("transform",function(d,i){return "translate(0,"+(i*DEPARTURES_ROW_HEIGHT + DEPARTURES_SCALE_HEIGHT)+")"})
+            .attr("transform",function(d,i){return "translate(0,"+(i*DEPARTURES_ROW_HEIGHT + DEPARTURES_AXIS_HEIGHT)+")"})
             .each(function(departure,index){
                 var departureOne = d3.select(this);
                 var stackX = 0;
@@ -100,7 +100,7 @@
                         .attr("y2",WEATHER_HEIGHT)                
                 weatherOne.select("text.grid")
                         .attr("x", WEATHER_WIDTH_ONE/2)
-                        .attr("y",WEATHER_HEIGHT + WEATHER_SCALE_HEIGHT);
+                        .attr("y",WEATHER_HEIGHT + WEATHER_AXIS_HEIGHT);
             
 
                 
