@@ -37,6 +37,10 @@
             .each(function(departure,index){
                 var departureOne = d3.select(this);
                 var stackX = 0;
+            
+                departureOne.selectAll(".bus")
+                    .attr("width",WIDTH*0.01)
+                    .attr("height",DEPARTURES_ROW_HEIGHT);
 
                 departureOne.select(".id")
                     .attr("x",0)
