@@ -9,7 +9,6 @@
     <script src="update.js" charset="utf-8"></script>
     <script src="lib/d3.axisWithLabelPicker.js" charset="utf-8"></script>
     <script src="lib/d3.genericLogScale.js" charset="utf-8"></script>
-    <script src="config.js" charset="utf-8"></script>
 </head>
 <body>
 <div id="container">
@@ -39,7 +38,7 @@
     var tScale = d3.scale.genericLog()
         .eps(1)
         .delta(50)
-        .domain([0, 120]);
+        .domain([0, 60]);
     
     var sunScale = d3.scale.sqrt()
         .domain([0, 1]);

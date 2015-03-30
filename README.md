@@ -9,10 +9,12 @@ The server require a lon and lat for the place to have the wather from, and the 
 `server.domain.se:9165/?lon=<WGS84lon>&lnat<WGS84lat>&sites=<A comma separated list with site ids to get realtime information from>`
 
 ## Client
-The client presents the data from the server according to the config. The client will only show busses departing from the stoppoint you decide. The topology is used to set the number of minutes needed to reach the stop. The walk is the total amount of time to show in the screen, in minutes.
+The client presents the data from the server according to the config. The client will only show busses departing from the stoppoint you decide. The topology is used to set the number of minutes needed to reach the stop, in minutes.
+Walk is the max time on the screen (60 is max that SL allowes), Run is the max time when one can still catch the transport but needs to hurry, Stay is the max time when transport can't be reached even if you hurry up
 
  ```javascript
  var config = {
+        "serverUrl": "http://pi.thure.org:9165/?lon=18.03&lat=59.29&sites=1707,1534",
         "departures":[
             {"stoppoint":"13174", "id":"134"},
             {"stoppoint":"13174", "id":"168"},
@@ -20,11 +22,12 @@ The client presents the data from the server according to the config. The client
             {"stoppoint":"13445", "id":"144"},
             {"stoppoint":"13446", "id":"165"},
             {"stoppoint":"13445", "id":"165"}
+            
         ],
         "topology":{
-            "13174": {"walk":120, "run":3, "stay":1, "unit":"second" },
-            "13446": {"walk":120, "run":5, "stay":3, "unit":"second" },
-            "13445": {"walk":120, "run":5.2, "stay":4, "unit":"second" }
+            "13174": {"walk":60, "run":3, "stay":1},
+            "13446": {"walk":60, "run":5, "stay":3},
+            "13445": {"walk":60, "run":5.2, "stay":4}
         },
         "weather":{
             "steps":"12",
