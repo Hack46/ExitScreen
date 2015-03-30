@@ -18,30 +18,7 @@
 </div>
 <script>
     var data = null;
-
-    //define config
-    var config = {
-        "serverUrl": "http://pi.thure.org:9165/?lon=18.03&lat=59.29&sites=1707,1534",
-        "departures":[
-            {"stoppoint":"13174", "id":"134"},
-            {"stoppoint":"13174", "id":"168"},
-            {"stoppoint":"13446", "id":"144"},
-            {"stoppoint":"13445", "id":"144"},
-            {"stoppoint":"13446", "id":"165"},
-            {"stoppoint":"13445", "id":"165"}
-            
-        ],
-        "topology":{
-            "13174": {"walk":120, "run":3, "stay":1, "unit":"second" },
-            "13446": {"walk":120, "run":5, "stay":3, "unit":"second" },
-            "13445": {"walk":120, "run":5.2, "stay":4, "unit":"second" }
-        },
-        "weather":{
-            "steps":"12",
-            "unit":"hour",
-            "unitShort":"h"
-        }
-    }
+    var config = null;
     
 
     // define constants (they update on resize)
@@ -62,7 +39,7 @@
     var tScale = d3.scale.genericLog()
         .eps(1)
         .delta(50)
-        .domain([0, d3.max(config.departures.map(function(d){return config.topology[d.stoppoint].walk }))]);
+        .domain([0, 120]);
     
     var sunScale = d3.scale.sqrt()
         .domain([0, 1]);
@@ -109,18 +86,21 @@
     
 
     
+    d3.json("config.json", function(error, json){
+        config = json;
         
-    init();
-    resize();
-    caller();
-    setInterval(caller, 120000);
-    
-    setInterval(function(){
-        if(data==null)return;
-        update(data);
-    }, DURATION_LAGOM)  
-    
-    window.onresize = resize;
+        init();
+        resize();
+        caller();
+        setInterval(caller, 120000);
+
+        setInterval(function(){
+            if(data==null)return;
+            update(data);
+        }, DURATION_LAGOM)  
+
+        window.onresize = resize;
+    })
         
 </script>
 </body>

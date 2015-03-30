@@ -1,0 +1,23 @@
+{
+        "serverUrl": "http://pi.thure.org:9165/?lon=18.05&lat=59.32&sites=9296",
+        "departures":[
+            {"stoppoint":"9296.2.1", "id":"13"},
+            {"stoppoint":"9296.2.1", "id":"14"},
+            {"stoppoint":"9296.2.2", "id":"13"},
+            {"stoppoint":"9296.2.2", "id":"14"},
+            {"stoppoint":"10656", "id":"4"},
+            {"stoppoint":"10655", "id":"4"}
+            
+        ],
+        "topology":{
+            "9296.2.1": {"walk":120, "run":6, "stay":3, "unit":"second" },
+            "9296.2.2": {"walk":120, "run":6, "stay":3, "unit":"second" },
+            "10656": {"walk":120, "run":6, "stay":3, "unit":"second" },
+            "10655": {"walk":120, "run":6, "stay":3, "unit":"second" }
+        },
+        "weather":{
+            "steps":"12",
+            "unit":"hour",
+            "unitShort":"h"
+        }
+}
