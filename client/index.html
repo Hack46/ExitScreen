@@ -19,6 +19,7 @@
 <script>
     var data = null;
     var config = null;
+    var user = window.location.search.substr(1);
 
     // define constants (they update on resize)
     var DEPARTURES_WIDTH_GRAPH = null;
@@ -85,7 +86,7 @@
     
 
     
-    d3.json("config.json", function(error, json){
+    d3.json("config-"+(user!=""?user:"martin-hem")+".json", function(error, json){
         config = json;
         
         init();
