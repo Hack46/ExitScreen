@@ -54,7 +54,7 @@ def getdata(lat, lon, siteids):
 				
 
 	for stop in siteids:
-		r = requests.get('http://api.sl.se/api2/realtimedepartures.json?key='+slkey+'&siteid='+stop+'&timewindow=120')
+		r = requests.get('http://api.sl.se/api2/realtimedepartures.json?key='+slkey+'&siteid='+stop+'&timewindow=60')
 		ddata = r.json()
 
 		for departure in ddata['ResponseData']['Metros']:
