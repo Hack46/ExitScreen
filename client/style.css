@@ -9,6 +9,7 @@ body, head{height: 100%; width: 100%;}
 #departures{height: 55%; width: 100%; top: 0%}
 #weather{height: 45%; width: 100%; top: 55%}
 
+
 #title{font-size: 24px; line-height: 100%; text-transform: uppercase; color: #a3a3a3}
 
 .stay{fill:#ffccb6;}
@@ -17,15 +18,16 @@ body, head{height: 100%; width: 100%;}
 
 .sun{fill:#ffcf64; opacity: 0.8;}
 .sun.moon{fill:#bec9d1; opacity: 0.8;}
+.curtains rect{fill: white; opacity:0.9}
 .rain{fill:#0027a8; opacity: 0.8;}
-.wind{fill:#bee9ff; opacity: 0.8;}
+.wind{fill:#91cfef; opacity: 1.0; text-anchor: end;}
 .temp{fill:#5a4f35; opacity: 0.8;}
+text.shadow{stroke: white; stroke-width: 3}
 
-text.sun{visibility: hidden};
+text.sun{visibility: hidden}
 
 
-line.grid{stroke-width: 1; stroke: #dbdbdb;}
-text.grid{ fill: #dbdbdb;}
+rect.grid{fill: #91cfef; stroke: none}
 
 .invisible{opacity: 0;}
 .bus{
@@ -42,3 +44,5 @@ rect.bus{fill: #a2009c; opacity: 0.7}
     stroke: grey;
     shape-rendering: crispEdges;
 }
+
+.axis text, text.grid{fill: grey}
