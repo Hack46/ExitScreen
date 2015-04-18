@@ -2,6 +2,8 @@
 
 The project consits of a Server and a Client. The goal of the project is to fit nessesary information on a 2,8" TFT screen. The information sould be important when you Exit your home.
 
+[Example](http://visuel.tv/exitscreen/)
+
 ## Server:
 Ther server gathers weather, daylaight, and public transit realtime information.
 
