@@ -46,12 +46,14 @@ def getdata(lat, lon, siteids):
 										"rain":hourdata['pit'],
 										"sun":(10.0-hourdata['tcc'])/10.0,
 										"windspeed":hourdata['ws'],
-										"day":day
+										"day":day,
+										"topwindspeed":hourdata['gust'],
+										"thunderstormprobaility":hourdata['tstm'],
+										"visibility":hourdata['vis']
 										}
 									  )
 			if len(outdata["weather"]) > 11:
 				break
-				
 
 	for stop in siteids:
 		r = requests.get('http://api.sl.se/api2/realtimedepartures.json?key='+slkey+'&siteid='+stop+'&timewindow=60')
