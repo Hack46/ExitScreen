@@ -49,7 +49,8 @@ def getdata(lat, lon, siteids):
 										"day":day,
 										"topwindspeed":hourdata['gust'],
 										"thunderstormprobaility":hourdata['tstm'],
-										"visibility":hourdata['vis']
+										"visibility":hourdata['vis'],
+										"winddirection":hourdata['wd']
 										}
 									  )
 			if len(outdata["weather"]) > 11:
